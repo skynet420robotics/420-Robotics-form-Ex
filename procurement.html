@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procurement Form — Legacy Treasure Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:wght@300;400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #D42B2B;
+    --red-dark: #9B1919;
+    --red-glow: rgba(212,43,43,0.35);
+    --blue: #1A3A8F;
+    --blue-bright: #2952CC;
+    --gold: #C8A84B;
+    --dark: #06080F;
+    --dark-2: #0C1020;
+    --dark-3: #111828;
+    --dark-4: #182038;
+    --text: #FFFFFF;
+    --text-dim: #C8D4F0;
+    --border: rgba(255,255,255,0.08);
+    --border-red: rgba(212,43,43,0.4);
+    --border-gold: rgba(200,168,75,0.35);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 15%, rgba(212,43,43,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 60% at 90% 85%, rgba(41,82,204,0.09) 0%, transparent 60%),
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,255,255,0.012) 80px),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.012) 80px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(6,8,15,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 3px;
+    text-decoration: none;
+    display: flex;
+    gap: 6px;
+  }
+  .nav-logo .r { color: var(--red); }
+  .nav-logo .b { color: #4A7AFF; }
+  .nav-links { display: flex; gap: 24px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { background: var(--red); color: #fff !important; padding: 8px 18px; border-radius: 2px; }
+  .nav-cta:hover { background: var(--red-dark) !important; }
+  @media(max-width:900px){ .nav-links { display: none; } nav { padding: 0 20px; } }
+
+  /* ── PAGE WRAPPER ── */
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 88px 28px 80px;
+  }
+
+  /* ── FULL WIDTH IMG ── */
+  .full-img {
+    width: 100%;
+    display: block;
+    object-fit: contain;
+    border-radius: 3px;
+    margin-bottom: 0;
+  }
+  .img-wrap {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    position: relative;
+    border: 1px solid var(--border);
+  }
+  .img-wrap .img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--dark) 0%, transparent 12%, transparent 88%, var(--dark) 100%);
+    pointer-events: none;
+  }
+
+  /* ── SECTION DIVIDER LINE ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-red), rgba(41,82,204,0.4), transparent);
+    margin: 52px 0;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    text-align: center;
+    padding: 56px 0 44px;
+  }
+  .page-header .ph-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(212,43,43,0.12);
+    border: 1px solid var(--border-red);
+    padding: 6px 20px;
+    border-radius: 2px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--red);
+    margin-bottom: 22px;
+  }
+  .page-header .ph-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .page-header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 9vw, 86px);
+    letter-spacing: 6px;
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+  .page-header h1 .word-proc { color: var(--text); }
+  .page-header h1 .word-form { color: var(--gold); }
+  .page-header .ph-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .page-header .ph-note {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── NOTICE BOX ── */
+  .notice-box {
+    background: rgba(200,168,75,0.07);
+    border: 1px solid var(--border-gold);
+    border-left: 4px solid var(--gold);
+    padding: 18px 24px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 44px;
+  }
+  .notice-box p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    color: rgba(255,220,120,0.85);
+    line-height: 1.6;
+  }
+  .notice-box .nb-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  /* ── FORM SHELL ── */
+  .form-shell {
+    background: var(--dark-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .form-section {
+    padding: 40px 44px;
+    border-bottom: 1px solid var(--border);
+  }
+  .form-section:last-child { border-bottom: none; }
+  @media(max-width:600px){ .form-section { padding: 28px 22px; } }
+
+  .fs-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .fs-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-red);
+    max-width: 80px;
+  }
+
+  /* ── FIELD ── */
+  .field-group { margin-bottom: 28px; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  .field-label {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .field-required { color: var(--red); margin-left: 4px; }
+
+  input[type="text"],
+  input[type="email"],
+  select {
+    width: 100%;
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 3px;
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color .2s, background .2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  select:focus {
+    border-color: var(--gold);
+    background: var(--dark-4);
+  }
+  input::placeholder { color: rgba(255,255,255,0.2); }
+  select option { background: var(--dark-3); color: var(--text); }
+
+  /* custom select arrow */
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  /* ── ZIP CONDITIONAL ── */
+  #zipField {
+    display: none;
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── SUBMIT ── */
+  .submit-section {
+    padding: 40px 44px;
+    background: linear-gradient(135deg, rgba(212,43,43,0.07), rgba(41,82,204,0.07));
+  }
+  @media(max-width:600px){ .submit-section { padding: 28px 22px; } }
+  .submit-section p {
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .btn-submit {
+    display: block;
+    width: 100%;
+    background: var(--red);
+    color: #fff;
+    border: 2px solid var(--red);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 6px;
+    padding: 20px 0;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    transition: background .25s, border-color .25s, box-shadow .25s;
+    box-shadow: 0 4px 20px rgba(212,43,43,0.3);
+  }
+  .btn-submit:hover {
+    background: var(--red-dark);
+    border-color: var(--red-dark);
+    box-shadow: 0 8px 30px rgba(212,43,43,0.5);
+  }
+
+  /* ── CALL BUTTON ── */
+  .call-section {
+    margin-top: 28px;
+    text-align: center;
+  }
+  .call-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .btn-call {
+    display: block;
+    width: 100%;
+    background: var(--dark-3);
+    color: var(--gold);
+    border: 2px solid var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 6px;
+    padding: 20px 0;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background .25s, box-shadow .25s;
+    box-shadow: 0 4px 20px rgba(200,168,75,0.2);
+    margin-bottom: 10px;
+  }
+  .btn-call:hover {
+    background: var(--gold);
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(200,168,75,0.45);
+  }
+  .btn-call .call-num {
+    display: block;
+    font-size: 18px;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Share Tech Mono', monospace;
+    margin-top: 4px;
+  }
+
+  /* ── SECTION IMAGES (between form sections) ── */
+  .between-img {
+    width: 100%;
+    display: block;
+    object-fit: contain;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    margin-top: 80px;
+    padding: 44px 0 36px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .footer-wordmark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 34px;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+  }
+  .footer-wordmark .r { color: var(--red); }
+  .footer-wordmark .b { color: #4A7AFF; }
+  .footer-motto {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 2px;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .footer-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="https://skynet420robotics.github.io/" class="nav-logo">
+    <span class="r">420</span><span class="b">ROBOTICS</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://skynet420robotics.github.io/#mission">Mission</a></li>
+    <li><a href="https://skynet420robotics.github.io/#council">Council</a></li>
+    <li><a href="https://skynet420robotics.github.io/#links">Research</a></li>
+    <li><a href="https://skynet420robotics.github.io/420-Robotics-Donations/">Donate</a></li>
+    <li><a href="https://skynet420robotics.github.io/" class="nav-cta">Main Page</a></li>
+  </ul>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- ── TOP MAIN IMAGE ── -->
+  <div class="img-wrap" style="margin-bottom:0;">
+    <img src="Screenshot_20260314-135110.Keep Notes (1).png" alt="420 Robotics Procurement" class="full-img"/>
+    <div class="img-overlay"></div>
+  </div>
+
+  <!-- ── PAGE HEADER ── -->
+  <div class="page-header">
+    <div class="ph-badge">LEGACY TREASURE GROUP — PROCUREMENT INTAKE</div>
+    <h1><span class="word-proc">PROCUREMENT</span><br><span class="word-form">FORM</span></h1>
+    <p class="ph-sub">Legacy Treasure Group &nbsp;•&nbsp; Processed Through 420 Robotics</p>
+    <p class="ph-note">NO PRICING IS DISPLAYED ON THIS PAGE</p>
+  </div>
+
+  <!-- ── NOTICE BOX ── -->
+  <div class="notice-box">
+    <span class="nb-label">Important Notice</span>
+    <p>This form collects the required information for Legacy Treasure Group procurement intake, processed through 420 Robotics. All submissions are reviewed directly by our team. No pricing is displayed anywhere on this page. For questions, call us 24/7 at <strong style="color:var(--gold);">415‑630‑5943</strong>.</p>
+  </div>
+
+  <!-- ── IMAGE 2 ── -->
+  <div class="img-wrap" style="margin-bottom:44px;">
+    <img src="image_1773475406110.jpeg" alt="420 Robotics Procurement Operations" class="full-img"/>
+    <div class="img-overlay"></div>
+  </div>
+
+  <!-- ── THE FORM ── -->
+  <form action="https://formspree.io/f/xqeylvqq" method="POST">
+
+    <!-- SECTION 1: CONTACT INFO -->
+    <div class="form-shell">
+      <div class="form-section">
+        <div class="fs-eyebrow">Section 01 — Contact Information</div>
+
+        <div class="field-group">
+          <label class="field-label" for="full_name">Full Legal Name <span class="field-required">*</span></label>
+          <input type="text" id="full_name" name="full_name" placeholder="Enter your full legal name" required/>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="email">Contact Email <span class="field-required">*</span></label>
+          <input type="email" id="email" name="email" placeholder="Enter your email address" required/>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="phone">Contact Phone <span class="field-required">*</span></label>
+          <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required/>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE 3 -->
+    <img src="AQN1Fu_qdBhvTgE96mBoNgIGnXybastyC4-YSnQDScq-4ZxNc5o3udz1o4MZzFYH_xiyZ1g159u3hXGkEiuR1FP9 (1) (1).jpeg" alt="420 Robotics Machine" class="between-img" style="margin:28px 0;"/>
+
+    <!-- SECTION 2: MACHINE MODEL -->
+    <div class="form-shell">
+      <div class="form-section">
+        <div class="fs-eyebrow">Section 02 — Machine Selection</div>
+
+        <div class="field-group">
+          <label class="field-label" for="machine_model">Selected Machine Model <span class="field-required">*</span></label>
+          <div class="select-wrap">
+            <select id="machine_model" name="machine_model" required>
+              <option value="">Select a model</option>
+              <option>YT‑08</option>
+              <option>YT‑12</option>
+              <option>YT‑15</option>
+              <option>YT‑17</option>
+              <option>YT‑18 / YT‑185</option>
+              <option>YT‑26S</option>
+              <option>YT‑30</option>
+              <option>YT‑35</option>
+              <option>YT‑65</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE 4 -->
+    <img src="AQOCmhI5Xc1Ufec6VkBN3qf-RR5mm3DPWQuMWyg5JQZtl1ybVA4JAKNAx3QmyjXkhIGTlrW_eZb59gxKtiZ8jpiH (1).jpeg" alt="420 Robotics Equipment" class="between-img" style="margin:28px 0;"/>
+
+    <!-- SECTION 3: PURCHASER + LOGISTICS -->
+    <div class="form-shell">
+      <div class="form-section">
+        <div class="fs-eyebrow">Section 03 — Purchaser &amp; Logistics</div>
+
+        <div class="field-group">
+          <label class="field-label" for="classification">Purchaser Classification <span class="field-required">*</span></label>
+          <div class="select-wrap">
+            <select id="classification" name="classification" required>
+              <option value="">Select one</option>
+              <option>Individual Consumer</option>
+              <option>Commercial and Government Entity</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="logistics">Logistics Preference <span class="field-required">*</span></label>
+          <div class="select-wrap">
+            <select id="logistics" name="logistics" required onchange="toggleZip()">
+              <option value="">Select one</option>
+              <option value="pickup">Direct Pickup at Houston Port</option>
+              <option value="delivery">Inland Freight Delivery</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- IMAGE 5 -->
+        <img src="AQPuZfPovH8LniP5K_1HRjj3ktlaq8c7Yz1t53XiowEVUvlYYrEOHMm2CJQWhpNEt-v_ytIbpjTgge5iq6_z9OLO (1).jpeg" alt="420 Robotics Logistics" class="between-img" style="margin:24px 0 0;border-radius:3px;"/>
+
+        <!-- CONDITIONAL ZIP -->
+        <div id="zipField">
+          <label class="field-label" for="delivery_zip">Delivery Zip Code <span class="field-required">*</span></label>
+          <input type="text" id="delivery_zip" name="delivery_zip" placeholder="Enter delivery zip code"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE 6 -->
+    <img src="AQP6gthE4kGu59tIHPjFUlle97UU3VKNgYHy8Lz8FcK9TGgm0eCKtZ6akUvRKgV_1GJQfVO69llo4tAxc-_BlzXY (1).jpeg" alt="420 Robotics Operations" class="between-img" style="margin:28px 0;"/>
+
+    <!-- SUBMIT SECTION -->
+    <div class="form-shell">
+      <div class="submit-section">
+        <p>By submitting this form you confirm the information provided is accurate. Your procurement request will be reviewed directly by the 420 Robotics team. No payment is collected through this form. For immediate assistance call <strong style="color:var(--gold);">415‑630‑5943</strong> — 24/7.</p>
+        <button type="submit" class="btn-submit">SUBMIT PROCUREMENT REQUEST</button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- ── CALL BUTTON ── -->
+  <div class="call-section">
+    <span class="call-label">— Ask Us Anything — 24 / 7</span>
+    <a href="tel:4156305943" class="btn-call">
+      CALL NOW — CLICK TO CALL
+      <span class="call-num">415‑630‑5943</span>
+    </a>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── PAGE FOOTER ── -->
+  <div class="page-footer">
+    <div class="footer-wordmark"><span class="r">420</span> <span class="b">ROBOTICS</span></div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Legacy Treasure Group</div>
+    <div class="footer-motto">For God. For Country. For Humanity.</div>
+    <div class="footer-links">
+      <a href="https://skynet420robotics.github.io/">Main Page</a>
+      <a href="https://skynet420robotics.github.io/420-Robotics-Donations/">Donate</a>
+      <a href="https://skynet420robotics.github.io/#links">Research</a>
+      <a href="mailto:420robotics@gmail.com">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025–2026 420 ROBOTICS — ALL RIGHTS RESERVED</div>
+  </div>
+
+</div>
+
+<script>
+function toggleZip() {
+  var val = document.getElementById('logistics').value;
+  var zip = document.getElementById('zipField');
+  zip.style.display = (val === 'delivery') ? 'block' : 'none';
+}
+</script>
+
+</body>
+</html>
